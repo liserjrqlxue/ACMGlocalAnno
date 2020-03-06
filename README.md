@@ -1,8 +1,9 @@
 # ACMGlocalAnno
 ACMG定点筛查
 
-## 注释
-在原来注释信息的基础上添加`自动化+人工证据`，`自动化+人工致病等级`，`PP_References`三列内容信息
+## 注释 annotation
+在原来注释信息的基础上添加`自动化+人工证据`，`自动化+人工致病等级`，`PP_References`三列内容信息  
+annotation extra columns `自动化+人工证据`, `自动化+人工致病等级` and `PP_References`
 
 ## ACMG local db
 1. directly load excel
