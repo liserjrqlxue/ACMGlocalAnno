@@ -37,7 +37,11 @@ var (
 	)
 )
 
-var appendColumns = []string{"自动化+人工证据", "自动化+人工致病等级", "PP_References"}
+var keyMap = map[string]string{
+	"自动化+人工证据":      "MUTATION_TYPE",
+	"自动化+人工致病等级":    "LITERATURE",
+	"PP_References": "DISEASE_PHENOTYPE",
+}
 
 func main() {
 	flag.Parse()
@@ -63,20 +67,29 @@ func main() {
 	// load input
 	anno, title := simpleUtil.File2MapArray(*input, "\t", nil)
 
+	var titleHash = make(map[string]bool)
+	for _, k := range title {
+		titleHash[k] = true
+	}
+	for _, v := range keyMap {
+		if !titleHash[v] {
+			title = append(title, v)
+		}
+	}
+
 	// create output
 	outputFh, err := os.Create(*output)
 	simpleUtil.CheckErr(err)
 	defer simpleUtil.DeferClose(outputFh)
 
-	title = append(title, appendColumns...)
 	_, err = fmt.Fprintln(outputFh, strings.Join(title, "\t"))
 	simpleUtil.CheckErr(err)
 
 	// annotation
 	for _, item := range anno {
 		key := item["Transcript"] + ":" + item["cHGVS"]
-		for _, k := range appendColumns {
-			item[k] = allDb[key][k]
+		for k, v := range keyMap {
+			item[v] = allDb[key][k]
 		}
 		var row []string
 		for _, k := range title {
