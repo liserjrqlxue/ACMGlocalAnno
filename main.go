@@ -8,6 +8,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/360EntSecGroup-Skylar/excelize/v2"
 	simpleUtil "github.com/liserjrqlxue/simple-util"
 )
 
@@ -56,14 +57,25 @@ func main() {
 
 	// load excel
 	var allDb = make(map[string]map[string]string)
-	_, database := simpleUtil.Sheet2MapArray(*db, *sheetName)
-	for _, item := range database {
-		var keyValues []string
-		for _, k := range keys {
-			keyValues = append(keyValues, item[k])
+	xlsxFh, err := excelize.OpenFile(*db)
+	simpleUtil.CheckErr(err)
+	rows, err := xlsxFh.GetRows(*sheetName)
+	simpleUtil.CheckErr(err)
+	for i, row := range rows {
+		if i == 0 {
+			keys = row
+		} else {
+			var item = make(map[string]string)
+			for j, cell := range row {
+				item[keys[j]] = cell
+			}
+			var keyValues []string
+			for _, k := range keys {
+				keyValues = append(keyValues, item[k])
+			}
+			mainKey := strings.Join(keyValues, ":")
+			allDb[mainKey] = item
 		}
-		mainKey := strings.Join(keyValues, ":")
-		allDb[mainKey] = item
 	}
 
 	// load input
