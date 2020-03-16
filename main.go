@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bufio"
 	"flag"
 	"fmt"
+	"log"
 	"os"
 	"strings"
 
@@ -65,37 +67,58 @@ func main() {
 	}
 
 	// load input
-	anno, title := simpleUtil.File2MapArray(*input, "\t", nil)
-
-	var titleHash = make(map[string]bool)
-	for _, k := range title {
-		titleHash[k] = true
-	}
-	for _, v := range keyMap {
-		if !titleHash[v] {
-			title = append(title, v)
-		}
-	}
+	file, err := os.Open(*input)
+	simpleUtil.CheckErr(err)
+	defer simpleUtil.DeferClose(file)
 
 	// create output
 	outputFh, err := os.Create(*output)
 	simpleUtil.CheckErr(err)
 	defer simpleUtil.DeferClose(outputFh)
 
-	_, err = fmt.Fprintln(outputFh, strings.Join(title, "\t"))
-	simpleUtil.CheckErr(err)
+	scanner := bufio.NewScanner(file)
+	sep := "\t"
+	var title []string
+	var header = true
+	for scanner.Scan() {
+		line := scanner.Text()
+		array := strings.Split(line, sep)
+		if header {
+			header = false
+			title = array
 
-	// annotation
-	for _, item := range anno {
-		key := item["Transcript"] + ":" + item["cHGVS"]
-		for k, v := range keyMap {
-			item[v] = allDb[key][k]
+			var titleHash = make(map[string]bool)
+			for _, k := range title {
+				titleHash[k] = true
+			}
+			for _, v := range keyMap {
+				if !titleHash[v] {
+					title = append(title, v)
+				}
+			}
+			if title == nil {
+				log.Fatal("title == nil")
+			}
+			_, err = fmt.Fprintln(outputFh, strings.Join(title, "\t"))
+			simpleUtil.CheckErr(err)
+		} else {
+			var item = make(map[string]string)
+			for j, k := range array {
+				item[title[j]] = k
+			}
+
+			// annotation
+			key := item["Transcript"] + ":" + item["cHGVS"]
+			for k, v := range keyMap {
+				item[v] = allDb[key][k]
+			}
+			var row []string
+			for _, k := range title {
+				row = append(row, item[k])
+			}
+			_, err = fmt.Fprintln(outputFh, strings.Join(row, "\t"))
+			simpleUtil.CheckErr(err)
 		}
-		var row []string
-		for _, k := range title {
-			row = append(row, item[k])
-		}
-		_, err = fmt.Fprintln(outputFh, strings.Join(row, "\t"))
-		simpleUtil.CheckErr(err)
 	}
+	simpleUtil.CheckErr(scanner.Err())
 }
