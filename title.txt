@@ -1,8 +1,8 @@
 注释表表头	ACMG定点数据库表头
-ACMGscreening_Var_证据项	证据项
-ACMGscreening_Var_致病等级	致病等级
-ACMGscreening_Var_参考文献	参考文献
-ACMGscreening_Var_Phenotype_OMIM_ID	关联疾病表型OMIM号
-ACMGscreening_Var_DiseaseNameEN	关联疾病英文名称
-ACMGscreening_Var_DiseaseNameCH	关联疾病中文名称
-ACMGscreening_Var_updatetime	数据库时间
+SecondaryFinding_Var_证据项	证据项
+SecondaryFinding_Var_致病等级	致病等级
+SecondaryFinding_Var_参考文献	参考文献
+SecondaryFinding_Var_Phenotype_OMIM_ID	关联疾病表型OMIM号
+SecondaryFinding_Var_DiseaseNameEN	关联疾病英文名称
+SecondaryFinding_Var_DiseaseNameCH	关联疾病中文名称
+SecondaryFinding_Var_updatetime	数据库时间
