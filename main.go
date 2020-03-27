@@ -6,10 +6,18 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path"
+	"path/filepath"
 	"strings"
 
 	"github.com/360EntSecGroup-Skylar/excelize/v2"
 	simpleUtil "github.com/liserjrqlxue/simple-util"
+)
+
+// os
+var (
+	ex, _  = os.Executable()
+	exPath = filepath.Dir(ex)
 )
 
 var (
@@ -38,13 +46,12 @@ var (
 		"Transcript:cHGVS",
 		"main key for hit",
 	)
+	titleMap = flag.String(
+		"titleMap",
+		path.Join(exPath, "title.txt"),
+		"title map",
+	)
 )
-
-var keyMap = map[string]string{
-	"自动化+人工证据":      "MUTATION_TYPE",
-	"自动化+人工致病等级":    "LITERATURE",
-	"PP_References": "DISEASE_PHENOTYPE",
-}
 
 func main() {
 	flag.Parse()
@@ -52,6 +59,9 @@ func main() {
 		flag.Usage()
 		os.Exit(1)
 	}
+
+	titleHash, err := simpleUtil.File2Map(*titleMap, "\t", true)
+	simpleUtil.CheckErr(err)
 
 	keys := strings.Split(*key, ":")
 
@@ -103,9 +113,9 @@ func main() {
 			for _, k := range title {
 				titleHash[k] = true
 			}
-			for _, v := range keyMap {
-				if !titleHash[v] {
-					title = append(title, v)
+			for k := range titleHash {
+				if !titleHash[k] {
+					title = append(title, k)
 				}
 			}
 			if title == nil {
@@ -121,8 +131,8 @@ func main() {
 
 			// annotation
 			key := item["Transcript"] + ":" + item["cHGVS"]
-			for k, v := range keyMap {
-				item[v] = allDb[key][k]
+			for k, v := range titleHash {
+				item[k] = allDb[key][v]
 			}
 			var row []string
 			for _, k := range title {
