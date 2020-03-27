@@ -109,12 +109,12 @@ func main() {
 			header = false
 			title = array
 
-			var titleHash = make(map[string]bool)
+			var inTitle = make(map[string]bool)
 			for _, k := range title {
-				titleHash[k] = true
+				inTitle[k] = true
 			}
 			for k := range titleHash {
-				if !titleHash[k] {
+				if inTitle[k] {
 					title = append(title, k)
 				}
 			}
