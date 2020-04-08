@@ -11,7 +11,8 @@ import (
 	"strings"
 
 	"github.com/360EntSecGroup-Skylar/excelize/v2"
-	simpleUtil "github.com/liserjrqlxue/simple-util"
+	"github.com/liserjrqlxue/goUtil/simpleUtil"
+	"github.com/liserjrqlxue/goUtil/textUtil"
 )
 
 // os
@@ -60,7 +61,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	titleHash, err := simpleUtil.File2Map(*titleMap, "\t", true)
+	titleHash, err := textUtil.File2Map(*titleMap, "\t", true)
 	simpleUtil.CheckErr(err)
 
 	keys := strings.Split(*key, ":")
@@ -114,7 +115,7 @@ func main() {
 				inTitle[k] = true
 			}
 			for k := range titleHash {
-				if inTitle[k] {
+				if !inTitle[k] {
 					title = append(title, k)
 				}
 			}
@@ -125,8 +126,10 @@ func main() {
 			simpleUtil.CheckErr(err)
 		} else {
 			var item = make(map[string]string)
-			for j, k := range array {
-				item[title[j]] = k
+			for i, v := range array {
+				if title != nil {
+					item[title[i]] = v
+				}
 			}
 
 			// annotation
