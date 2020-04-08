@@ -72,13 +72,16 @@ func main() {
 	simpleUtil.CheckErr(err)
 	rows, err := xlsxFh.GetRows(*sheetName)
 	simpleUtil.CheckErr(err)
+	var firstLine []string
 	for i, row := range rows {
 		if i == 0 {
-			keys = row
+			firstLine = row
 		} else {
 			var item = make(map[string]string)
 			for j, cell := range row {
-				item[keys[j]] = cell
+				if firstLine != nil {
+					item[firstLine[j]] = cell
+				}
 			}
 			var keyValues []string
 			for _, k := range keys {
