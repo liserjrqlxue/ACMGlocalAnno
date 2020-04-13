@@ -34,7 +34,7 @@ var (
 	)
 	db = flag.String(
 		"db",
-		"",
+		path.Join(exPath, "ACMG59.db.xlsx"),
 		"acmg local db file",
 	)
 	sheetName = flag.String(
