@@ -1,4 +1,3 @@
-注释表表头	ACMG定点数据库表头
 SecondaryFinding_Var_证据项	证据项
 SecondaryFinding_Var_致病等级	致病等级
 SecondaryFinding_Var_参考文献	参考文献

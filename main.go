@@ -61,12 +61,10 @@ func main() {
 		os.Exit(1)
 	}
 
-	titleHash, err := textUtil.File2Map(*titleMap, "\t", true)
+	var titleHash, err = textUtil.File2Map(*titleMap, "\t", true)
 	simpleUtil.CheckErr(err)
 
-	keys := strings.Split(*key, ":")
-
-	// load excel
+	var keys = strings.Split(*key, ":")
 	var allDb = make(map[string]map[string]string)
 	xlsxFh, err := excelize.OpenFile(*db)
 	simpleUtil.CheckErr(err)
@@ -87,7 +85,7 @@ func main() {
 			for _, k := range keys {
 				keyValues = append(keyValues, item[k])
 			}
-			mainKey := strings.Join(keyValues, ":")
+			var mainKey = strings.Join(keyValues, ":")
 			allDb[mainKey] = item
 		}
 	}
