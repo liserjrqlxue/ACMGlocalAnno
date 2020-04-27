@@ -61,7 +61,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	var titleHash, err = textUtil.File2Map(*titleMap, "\t", true)
+	var titleHash, titleOrder, err = textUtil.File2MapOrder(*titleMap, "\t", true)
 	simpleUtil.CheckErr(err)
 
 	var keys = strings.Split(*key, ":")
@@ -115,7 +115,7 @@ func main() {
 			for _, k := range title {
 				inTitle[k] = true
 			}
-			for k := range titleHash {
+			for _, k := range titleOrder {
 				if !inTitle[k] {
 					title = append(title, k)
 				}
