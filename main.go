@@ -87,7 +87,7 @@ func main() {
 			}
 			var keyValues []string
 			for _, k := range keys {
-				keyValues = append(keyValues, isLF.ReplaceAllString(item[k], "<br/>"))
+				keyValues = append(keyValues, item[k])
 			}
 			var mainKey = strings.Join(keyValues, ":")
 			allDb[mainKey] = item
@@ -144,7 +144,7 @@ func main() {
 			}
 			var row []string
 			for _, k := range title {
-				row = append(row, item[k])
+				row = append(row, isLF.ReplaceAllString(item[k], "<br/>"))
 			}
 			_, err = fmt.Fprintln(outputFh, strings.Join(row, "\t"))
 			simpleUtil.CheckErr(err)
