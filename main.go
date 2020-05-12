@@ -104,12 +104,19 @@ func main() {
 	simpleUtil.CheckErr(err)
 	defer simpleUtil.DeferClose(outputFh)
 
-	scanner := bufio.NewScanner(file)
-	sep := "\t"
-	var title []string
-	var header = true
+	var (
+		scanner = bufio.NewScanner(file)
+		sep     = "\t"
+		skip    = regexp.MustCompile(`^##`)
+		title   []string
+		header  = true
+	)
+
 	for scanner.Scan() {
 		line := scanner.Text()
+		if skip.MatchString(line) {
+			continue
+		}
 		array := strings.Split(line, sep)
 		if header {
 			header = false
