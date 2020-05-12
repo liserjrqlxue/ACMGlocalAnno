@@ -8,6 +8,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"regexp"
 	"strings"
 
 	"github.com/360EntSecGroup-Skylar/excelize/v2"
@@ -20,6 +21,9 @@ var (
 	ex, _  = os.Executable()
 	exPath = filepath.Dir(ex)
 )
+
+// \n -> <br/>
+var isLF = regexp.MustCompile(`\n`)
 
 var (
 	input = flag.String(
@@ -83,7 +87,7 @@ func main() {
 			}
 			var keyValues []string
 			for _, k := range keys {
-				keyValues = append(keyValues, item[k])
+				keyValues = append(keyValues, isLF.ReplaceAllString(item[k], "<br/>"))
 			}
 			var mainKey = strings.Join(keyValues, ":")
 			allDb[mainKey] = item
