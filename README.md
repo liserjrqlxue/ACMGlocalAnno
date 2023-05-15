@@ -17,12 +17,12 @@
 
 # 生信操作
 
-1.  原流程`anno2xlsx` `-snv`\参数的输入文件记为`input.tsv`
+1. 原流程`anno2xlsx` `-snv` 参数的输入文件记为`input.tsv`
 
-2.  运行`ACMGlocalAnno -input input.tsv -output
-    output.tsv`，`output.tsv`为`ACMGlocalAnno`输出
+2. 运行`ACMGlocalAnno -input input.tsv -output
+   output.tsv`，`output.tsv`为`ACMGlocalAnno`输出
 
-3.  原流程`anno2xlsx` `-snv`参数替换为`output.tsv`
+3. 原流程`anno2xlsx` `-snv` 参数替换为`output.tsv`
 
 # 细节
 
@@ -30,12 +30,12 @@
 
 2.  新增表头：
 
-  注释表表头                                   |ACMG定点数据库表头
-  --------------------------------------------| --------------------
-  SecondaryFinding\_Var\_证据项                |证据项
-  SecondaryFinding\_Var\_致病等级              |致病等级
-  SecondaryFinding\_Var\_参考文献              |参考文献
-  SecondaryFinding\_Var\_Phenotype\_OMIM\_ID   |关联疾病表型OMIM号
-  SecondaryFinding\_Var\_DiseaseNameEN         |关联疾病英文名称
-  SecondaryFinding\_Var\_DiseaseNameCH         |关联疾病中文名称
-  SecondaryFinding\_Var\_updatetime            |数据库时间
+| 注释表表头                                      | ACMG定点数据库表头 |
+|--------------------------------------------|-------------|
+| SecondaryFinding\_Var\_证据项                 | 证据项         |
+| SecondaryFinding\_Var\_致病等级                | 致病等级        |
+| SecondaryFinding\_Var\_参考文献                | 参考文献        |
+| SecondaryFinding\_Var\_Phenotype\_OMIM\_ID | 关联疾病表型OMIM号 |
+| SecondaryFinding\_Var\_DiseaseNameEN       | 关联疾病英文名称    |
+| SecondaryFinding\_Var\_DiseaseNameCH       | 关联疾病中文名称    |
+| SecondaryFinding\_Var\_updatetime          | 数据库时间       |

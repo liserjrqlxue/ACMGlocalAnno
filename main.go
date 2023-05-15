@@ -11,9 +11,10 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/360EntSecGroup-Skylar/excelize/v2"
+	"github.com/liserjrqlxue/anno2xlsx/v2/anno"
 	"github.com/liserjrqlxue/goUtil/simpleUtil"
 	"github.com/liserjrqlxue/goUtil/textUtil"
+	"github.com/xuri/excelize/v2"
 )
 
 // os
@@ -145,9 +146,14 @@ func main() {
 			}
 
 			// annotation
-			key := item["Transcript"] + ":" + item["cHGVS"]
-			for k, v := range titleHash {
-				item[k] = allDb[key][v]
+			var target, ok = anno.GetFromMultiKeys(
+				allDb,
+				anno.GetKeys(item["Transcript"], item["cHGVS"]),
+			)
+			if ok {
+				for k, v := range titleHash {
+					item[k] = target[v]
+				}
 			}
 			var row []string
 			for _, k := range title {
