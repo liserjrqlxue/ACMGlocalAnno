@@ -21,6 +21,7 @@ import (
 var (
 	ex, _  = os.Executable()
 	exPath = filepath.Dir(ex)
+	dbPath = filepath.Join(exPath, "db")
 )
 
 // \n -> <br/>
@@ -39,7 +40,7 @@ var (
 	)
 	db = flag.String(
 		"db",
-		path.Join(exPath, "ACMG59.db.xlsx"),
+		path.Join(dbPath, "ACMGSF.xlsx"),
 		"acmg local db file",
 	)
 	sheetName = flag.String(
